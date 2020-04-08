@@ -17,11 +17,11 @@ led_b = LED(20)
 switch_1 = Button(21)
 def switch_1_pressed():
     global switch1
-    switch1.set_value(True)
+    switch1.set_value(1)
     print("switch_1 On")
 def switch_1_released():
     global switch1
-    switch1.set_value(False)
+    switch1.set_value(0)
     print("switch_1 Off")
 switch_1.when_pressed = switch_1_pressed
 switch_1.when_released = switch_1_released
@@ -29,11 +29,11 @@ switch_1.when_released = switch_1_released
 switch_2 = Button(22)
 def switch_2_pressed():
     global switch2
-    switch2.set_value(True)
+    switch2.set_value(1)
     print("switch_2 On")
 def switch_2_released():
     global switch2
-    switch2.set_value(False)
+    switch2.set_value(0)
     print("switch_2 Off")
 switch_2.when_pressed = switch_2_pressed
 switch_2.when_released = switch_2_released
@@ -41,16 +41,17 @@ switch_2.when_released = switch_2_released
 rangeSensor = DistanceSensor(echo=5, trigger=4, queue_len=2)
 
 def get_range_val():
+    #print("range: ", rangeSensor.distance * 100)
     return rangeSensor.distance * 100
 
 flameSensor = Button(6)
 def flameSensorOn():
     global flameVal
-    flameVal.set_value(True)
+    flameVal.set_value(1)
     print("flameSensor On")
 def flameSensorOff():
     global flameVal
-    flameVal.set_value(False)
+    flameVal.set_value(0)
     print("flameSensor Off")
 flameSensor.when_pressed = flameSensorOn
 flameSensor.when_released = flameSensorOff
@@ -112,7 +113,6 @@ class SubHandler(object):
     def event_notification(self, event):
         print("Python: New event", event)
 
-
 if __name__ == "__main__":
     global ledR, ledG, ledB, switch1, switch2, rotaryVal, rangeVal, flameVal, sinGen
 
@@ -143,14 +143,14 @@ if __name__ == "__main__":
     ledB = myobj.add_variable(idx, "Led_B", False, ua.VariantType.Boolean)
     ledB.set_writable()
 
-    switch1 = myobj.add_variable(idx, "Switch_1", False, ua.VariantType.Boolean)
-    switch2 = myobj.add_variable(idx, "Switch_2", False, ua.VariantType.Boolean)
+    switch1 = myobj.add_variable(idx, "Switch_1", 0, ua.VariantType.UInt32)
+    switch2 = myobj.add_variable(idx, "Switch_2", 0, ua.VariantType.UInt32)
 
     rotaryVal = myobj.add_variable(idx, "Rotary", 0, ua.VariantType.UInt32)
 
-    rangeVal = myobj.add_variable(idx, "Range", 0, ua.VariantType.UInt32)
+    rangeVal = myobj.add_variable(idx, "Range", 0.0)
 
-    flameVal = myobj.add_variable(idx, "Flame", False, ua.VariantType.Boolean)
+    flameVal = myobj.add_variable(idx, "Flame", 0, ua.VariantType.UInt32)
 
     sinGen = myobj.add_variable(idx, "SineGenerator", 0.0)
 
